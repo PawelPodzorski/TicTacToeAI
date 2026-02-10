@@ -1,5 +1,6 @@
 #include "game.h"
 #include <iostream>
+#include "minimax.h"
 
 using std::cout, std::cin;
 
@@ -9,7 +10,8 @@ void playTTTGame(){
     cout << "Do you want to play against AI or Human?\n";
     Opponent opponent = GetOpponent();
     if(opponent == Opponent::AI){
-        ai(tgame);
+        // placeholder
+        humanVsHumanPlusEval(tgame);
     } else {
         humanVsHuman(tgame);
     }
@@ -36,13 +38,25 @@ Opponent GetOpponent(){
 }
 
 void humanMove(tictactoe::Game& tgame, short player){
-
     short row, col;
+
     cout << "Player " << player << ", enter row and column (0-2) for your move\n";
-    cin >> row >> col;
-    while(!tgame.makeMove(row, col, player)){
-        cout << "Invalid move. Try again.\n";
+    while(true){
+
         cin >> row >> col;
+        if(cin.fail()){
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Please enter numbers only\n";
+            continue;
+        }
+
+        if(tgame.makeMove(row, col, player)){
+            break;
+        } else {
+            cout << "Invalid move. Row and column must be between 0 and 2, or the space is already occupied\n";
+            continue;
+        }
     }
 }
 
@@ -64,8 +78,23 @@ void humanVsHuman(tictactoe::Game& tgame){
     }
 }
 
-void ai(tictactoe::Game& tgame){
-    //placeholder
-    return;
-}
+void humanVsHumanPlusEval(tictactoe::Game& tgame){
+    short player = 1;
+    while(true){
+        tgame.printBoard();
 
+        int eval = ai::minimax(tgame, (short)9, player, player == 1);
+        cout << "AI evaluation: " << eval << "\n\n";
+        humanMove(tgame, player);
+
+        if(tgame.checkIfWin() == player){
+            cout << "Player " << player << " wins!\n";
+            return;
+        }
+        if(tgame.checkIfDraw()){
+            cout << "Draw!\n";
+            return;
+        }
+        player = (player == 1) ? 2 : 1;
+    }
+}

@@ -10,6 +10,7 @@ namespace tictactoe {
         void clearBoard();
         void printBoard();
         bool makeMove(short row, short col, short player);
+        void undoMove(short row, short col);
         short checkIfWin();
         bool checkIfDraw();
     };

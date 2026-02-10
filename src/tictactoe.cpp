@@ -31,17 +31,24 @@ void Game::printBoard() {
 bool Game::makeMove(short row, short col, short player) {
     // Check if valid move
     if(row < 0 || row > 2 || col < 0 || col > 2){
-        cout << "Invalid move. Row and column must be between 0 and 2\n";
+        //cout << "Invalid move. Row and column must be between 0 and 2\n";
         return false;
     }
     if(board[row][col] != 0){
-        cout << "Invalid move. Already occupied\n";
+        //cout << "Invalid move. Already occupied\n";
         return false;
     }
 
     // make move
     board[row][col] = player;
     return true;
+}
+
+void Game::undoMove(short row, short col){
+    if(row < 0 || row > 2 || col < 0 || col > 2){
+        return;
+    }
+    board[row][col] = 0;
 }
 
 short Game::checkIfWin(){
