@@ -8,7 +8,7 @@ using std::cout, std::cin;
 void playTTTGame(){
     auto tgame = tictactoe::Game();
     cout << "Do you want to play against AI or Human?\n";
-    Opponent opponent = GetOpponent();
+    Opponent opponent = ChooseOpponent();
     if(opponent == Opponent::AI){
         // placeholder
         humanVsHumanPlusEval(tgame);
@@ -19,7 +19,7 @@ void playTTTGame(){
 
 }
 
-Opponent GetOpponent(){
+Opponent ChooseOpponent(){
     Opponent opponent;
     std::string input;
     while(true){
@@ -83,8 +83,9 @@ void humanVsHumanPlusEval(tictactoe::Game& tgame){
     while(true){
         tgame.printBoard();
 
-        int eval = ai::minimax(tgame, (short)9, player, player == 1);
-        cout << "AI evaluation: " << eval << "\n\n";
+        ai::MinimaxReturn result = ai::evaluateMinimax(tgame, player, (short)tgame.getEmptyCellsCount(), player == 1);
+        cout << "AI evaluation: " << result.eval << "\n";
+        cout << "mate in: " << ai::matein(tgame, result.eval) << "\n\n";
         humanMove(tgame, player);
 
         if(tgame.checkIfWin() == player){
@@ -95,6 +96,6 @@ void humanVsHumanPlusEval(tictactoe::Game& tgame){
             cout << "Draw!\n";
             return;
         }
-        player = (player == 1) ? 2 : 1;
+        player = ai::switchPlayer(player);
     }
 }

@@ -18,7 +18,7 @@ void Game::clearBoard(){
     }
 }
 
-void Game::printBoard() {
+void Game::printBoard() const {
     for(short i = 0; i < 3; i++){
         for(short j = 0; j < 3; j++){
             cout << board[i][j] << " ";
@@ -51,7 +51,7 @@ void Game::undoMove(short row, short col){
     board[row][col] = 0;
 }
 
-short Game::checkIfWin(){
+short Game::checkIfWin() const {
     // Check rows
     for(short i = 0; i < 3; i++){
         if(board[i][0] != 0 && board[i][0] == board[i][1] && board[i][1] == board[i][2]){
@@ -78,7 +78,7 @@ short Game::checkIfWin(){
     return 0;
 }
 
-bool Game::checkIfDraw() {
+bool Game::checkIfDraw() const {
     // check if any empty spaces
     for(short i = 0; i < 3; i++){
         for(short j = 0; j < 3; j++){
@@ -88,7 +88,19 @@ bool Game::checkIfDraw() {
         }
     }
 
-    return true;
+    return !checkIfWin(); // check if win before declaring draw
 }
+
+short Game::getEmptyCellsCount() const {
+    short count = 0;
+    for(short i = 0; i < 3; i++){
+        for(short j = 0; j < 3; j++){
+            if(board[i][j] == 0){
+                count++;
+            }
+        }
+    }
+    return count;
+};
 
 }

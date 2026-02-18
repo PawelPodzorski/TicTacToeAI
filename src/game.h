@@ -8,4 +8,4 @@ void humanMove(tictactoe::Game& tgame, short player);
 void humanVsHuman(tictactoe::Game& tgame);
 void humanVsHumanPlusEval(tictactoe::Game& tgame);
 
-Opponent GetOpponent();
+Opponent ChooseOpponent();

@@ -8,10 +8,12 @@ namespace tictactoe {
         public:
         Game();
         void clearBoard();
-        void printBoard();
+        void printBoard() const;
         bool makeMove(short row, short col, short player);
         void undoMove(short row, short col);
-        short checkIfWin();
-        bool checkIfDraw();
+        short checkIfWin() const;
+        bool checkIfDraw() const;
+        short getCell(short row, short col) const { return board[row][col]; }
+        short getEmptyCellsCount() const;
     };
 }
