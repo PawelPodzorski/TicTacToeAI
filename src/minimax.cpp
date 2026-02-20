@@ -8,6 +8,11 @@ MinimaxReturn evaluateMinimax(tictactoe::Game& tgame, short player, short depth,
     return MinimaxReturn{result.eval, {result.move[0], result.move[1]}};
 }
 
+MinimaxReturn evaluateMinimaxAlphaBeta(tictactoe::Game& tgame, short player, short depth, bool maximizingPlayer){
+    MinimaxReturn result = minimaxAlphaBeta(tgame, player, depth, maximizingPlayer);
+    return MinimaxReturn{result.eval, {result.move[0], result.move[1]}};
+}
+
 MinimaxReturn minimax(tictactoe::Game& tgame, short player, short depth, bool maximizingPlayer){
     short winner = tgame.checkIfWin();
     if(winner != 0 || tgame.checkIfDraw() || depth == 0){
@@ -27,6 +32,44 @@ MinimaxReturn minimax(tictactoe::Game& tgame, short player, short depth, bool ma
                     eval = result.eval;
                     bestMove[0] = row;
                     bestMove[1] = col;
+                }
+            }
+        }
+    }
+    return MinimaxReturn{eval, {bestMove[0], bestMove[1]}};
+}
+
+MinimaxReturn minimaxAlphaBeta(tictactoe::Game& tgame, short player, short depth, bool maximizingPlayer, int alpha, int beta){
+    short winner = tgame.checkIfWin();
+    if(winner != 0 || tgame.checkIfDraw() || depth == 0){
+        return MinimaxReturn{scoreMove(tgame, depth), {0,0}};
+    }
+    
+    int eval = maximizingPlayer ? INT_MIN : INT_MAX;
+    int bestMove[2] = {0, 0};
+    
+    for(short row = 0; row < 3; row++){
+        for(short col = 0; col < 3; col++){
+            if(tgame.makeMove(row, col, player)){
+                MinimaxReturn result = minimaxAlphaBeta(tgame, switchPlayer(player), depth - 1, !maximizingPlayer, alpha, beta);
+                tgame.undoMove(row,col);
+                
+                if(isBetter(result.eval, eval, maximizingPlayer)){
+                    eval = result.eval;
+                    bestMove[0] = row;
+                    bestMove[1] = col;
+                }
+
+                // Alpha-beta pruning
+                if(maximizingPlayer){
+                    alpha = std::max(alpha, eval);
+                } else {
+                    beta = std::min(beta, eval);
+                }
+
+                // prune
+                if(beta <= alpha){
+                    return MinimaxReturn{eval, {bestMove[0], bestMove[1]}};
                 }
             }
         }

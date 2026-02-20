@@ -83,9 +83,10 @@ void humanVsHumanPlusEval(tictactoe::Game& tgame){
     while(true){
         tgame.printBoard();
 
-        ai::MinimaxReturn result = ai::evaluateMinimax(tgame, player, (short)tgame.getEmptyCellsCount(), player == 1);
+        ai::MinimaxReturn result = ai::evaluateMinimaxAlphaBeta(tgame, player, (short)tgame.getEmptyCellsCount(), player == 1);
         cout << "AI evaluation: " << result.eval << "\n";
         cout << "mate in: " << ai::matein(tgame, result.eval) << "\n\n";
+        cout << "Best move: (" << result.move[0] << ", " << result.move[1] << ")\n";
         humanMove(tgame, player);
 
         if(tgame.checkIfWin() == player){
