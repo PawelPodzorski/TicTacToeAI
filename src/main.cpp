@@ -5,5 +5,6 @@
 
 int main() {
     playTTTGame();
+    std::cin.get(); // Wait for user input before exiting
     return 0;
 }

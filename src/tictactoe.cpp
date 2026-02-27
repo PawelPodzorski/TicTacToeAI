@@ -30,12 +30,10 @@ void Game::printBoard() const {
 // returns true if move was successful
 bool Game::makeMove(short row, short col, short player) {
     // Check if valid move
-    if(row < 0 || row > 2 || col < 0 || col > 2){
-        //cout << "Invalid move. Row and column must be between 0 and 2\n";
+    if(row < 0 || row > 2 || col < 0 || col > 2){ // out of bounds
         return false;
     }
-    if(board[row][col] != 0){
-        //cout << "Invalid move. Already occupied\n";
+    if(board[row][col] != 0){ // cell already occupied
         return false;
     }
 
