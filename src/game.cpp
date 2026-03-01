@@ -1,7 +1,8 @@
-#include "game.h"
 #include <iostream>
-#include "minimax.h"
 #include <random>
+
+#include "tictactoe/game.h"
+#include "tictactoe/minimax.h"
 
 using std::cout, std::cin;
 

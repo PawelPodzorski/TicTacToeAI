@@ -1,4 +1,4 @@
-#include "minimax.h"
+#include "tictactoe/minimax.h"
 #include <cmath>
 
 namespace ai{

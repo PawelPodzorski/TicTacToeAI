@@ -1,5 +1,5 @@
 #include <iostream>
-#include "tictactoe.h"
+#include "tictactoe/tictactoe.h"
 
 using std::cout;
 

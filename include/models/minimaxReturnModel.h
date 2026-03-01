@@ -1,5 +1,5 @@
 #pragma once
-#include "../minimax.h"
+#include "tictactoe/minimax.h"
 
 namespace ai{
     struct MinimaxReturn {

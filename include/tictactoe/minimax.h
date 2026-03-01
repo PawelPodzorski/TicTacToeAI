@@ -1,6 +1,6 @@
 #pragma once
-#include "tictactoe.h"
-#include "Models/minimaxReturnModel.h"
+#include "tictactoe/tictactoe.h"
+#include "models/minimaxReturnModel.h"
 #include <cmath>
 
 namespace ai{

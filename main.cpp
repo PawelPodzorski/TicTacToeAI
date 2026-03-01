@@ -1,7 +1,6 @@
 #include <iostream>
-#include "tictactoe.h"
-#include "game.h"
-#include "minimax.h"
+#include <cmath>
+#include "tictactoe/game.h"
 
 int main() {
     playTTTGame();

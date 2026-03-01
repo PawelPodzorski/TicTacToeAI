@@ -1,5 +1,5 @@
 #pragma once
-#include "tictactoe.h"
+#include "tictactoe/tictactoe.h"
 
 enum class Opponent { AI, Human };
 enum class AiDifficulty { Easy, Medium, Impossible };
