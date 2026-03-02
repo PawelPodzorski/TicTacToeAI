@@ -1,0 +1,35 @@
+name: C++ GTest CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install g++ and GoogleTest
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ libgtest-dev cmake
+
+    - name: Build GoogleTest
+      run: |
+        cd /usr/src/gtest
+        sudo cmake .
+        sudo make
+        sudo cp lib/*.a /usr/lib
+
+    - name: Compile project with tests
+      run: |
+        g++ -std=c++17 src/*.cpp tests/*.cpp -Iinclude \
+        -lgtest -lgtest_main -pthread -o tests
+
+    - name: Run tests
+      run: ./tests
