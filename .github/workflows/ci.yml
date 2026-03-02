@@ -32,4 +32,4 @@ jobs:
         -lgtest -lgtest_main -pthread -o gtest.exe
 
     - name: Run tests
-      run: ./gtest
+      run: ./gtest.exe
