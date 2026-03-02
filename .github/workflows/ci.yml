@@ -29,7 +29,7 @@ jobs:
     - name: Compile project with tests
       run: |
         g++ -std=c++17 src/*.cpp tests/*.cpp -Iinclude \
-        -lgtest -lgtest_main -pthread -o tests
+        -lgtest -lgtest_main -pthread -o gtest.exe
 
     - name: Run tests
-      run: ./tests
+      run: ./gtest
