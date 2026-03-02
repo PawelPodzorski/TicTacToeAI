@@ -26,13 +26,13 @@ void Game::enableANSI() {
 std::string toString(tictactoe::CellState state){
     switch(state){
         case CellState::Empty:
-            return " ";
+            return "Empty";
         case CellState::O:
             return "O";
         case CellState::X:
             return "X";
     }
-    return "?";
+    return "Error";
 }
 
 
@@ -72,7 +72,7 @@ void Game::printBoard() const {
 }
 
 // returns true if move was successful
-bool Game::makeMove(short row, short col, short player) {
+bool Game::makeMove(short row, short col, short player){
     // Check if valid move
     if(row < 0 || row > 2 || col < 0 || col > 2){ // out of bounds
         return false;
@@ -85,6 +85,9 @@ bool Game::makeMove(short row, short col, short player) {
     board[row][col] = static_cast<CellState>(player);
     return true;
 }
+bool Game::makeMove(short row, short col, CellState player){
+    return makeMove(row, col, static_cast<short>(player));
+}
 
 void Game::undoMove(short row, short col){
     if(row < 0 || row > 2 || col < 0 || col > 2){
@@ -93,31 +96,31 @@ void Game::undoMove(short row, short col){
     board[row][col] = CellState::Empty;
 }
 
-short Game::checkIfWin() const {
+CellState Game::checkIfWin() const {
     // Check rows
     for(short i = 0; i < 3; i++){
         if(board[i][0] != CellState::Empty && board[i][0] == board[i][1] && board[i][1] == board[i][2]){
-            return static_cast<short>(board[i][0]);
+            return board[i][0];
         }
     }
 
     // Check columns
     for(short j = 0; j < 3; j++){
         if(board[0][j] != CellState::Empty && board[0][j] == board[1][j] && board[1][j] == board[2][j]){
-            return static_cast<short>(board[0][j]);
+            return board[0][j];
         }
     }
 
     // Check diagonals
     if(board[0][0] != CellState::Empty && board[0][0] == board[1][1] && board[1][1] == board[2][2]){
-        return static_cast<short>(board[0][0]);
+        return board[0][0];
     }
     if(board[0][2] != CellState::Empty && board[0][2] == board[1][1] && board[1][1] == board[2][0]){
-        return static_cast<short>(board[0][2]);
+        return board[0][2];
     }
 
     // No winner
-    return 0;
+    return CellState::Empty;
 }
 
 bool Game::checkIfDraw() const {
@@ -130,14 +133,14 @@ bool Game::checkIfDraw() const {
         }
     }
 
-    return !checkIfWin(); // check if win before declaring draw
+    return checkIfWin() == CellState::Empty; // check if win before declaring draw
 }
 
-short Game::getCell(short row, short col) const {
+CellState Game::getCell(short row, short col) const {
     if(row < 0 || row > 2 || col < 0 || col > 2){
-        return -1; // invalid cell
+        return CellState::Empty; // out of bounds, treat as empty
     }
-    return static_cast<short>(board[row][col]);
+    return board[row][col];
 }
 
 short Game::getEmptyCellsCount() const {
@@ -151,5 +154,14 @@ short Game::getEmptyCellsCount() const {
     }
     return count;
 };
+
+CellState switchPlayer(CellState player){
+    if(player == CellState::O){
+        return CellState::X;
+    } else if(player == CellState::X){
+        return CellState::O;
+    }
+    return CellState::Empty; // should never happen
+}
 
 }

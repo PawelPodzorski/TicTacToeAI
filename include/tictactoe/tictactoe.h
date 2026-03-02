@@ -5,6 +5,7 @@ namespace tictactoe {
     enum class CellState : short { Empty = 0, O = 1, X = 2 };
 
     std::string toString(tictactoe::CellState state);
+    CellState switchPlayer(CellState player);
 
     class Game {
         private:
@@ -19,11 +20,14 @@ namespace tictactoe {
         Game();
         void clearBoard();
         void printBoard() const;
+
         bool makeMove(short row, short col, short player);
+        bool makeMove(short row, short col, CellState player);
+        
         void undoMove(short row, short col);
-        short checkIfWin() const;
+        CellState checkIfWin() const;
         bool checkIfDraw() const;
-        short getCell(short row, short col) const;
+        CellState getCell(short row, short col) const;
         short getEmptyCellsCount() const;
     };
 }

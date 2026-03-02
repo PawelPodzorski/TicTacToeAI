@@ -85,43 +85,43 @@ void humanMoveInput(tictactoe::Game& tgame, short player){
 }
 
 void humanVsHuman(tictactoe::Game& tgame){
-    short player = 1;
+    tictactoe::CellState player = tictactoe::CellState::O;
     while(true){
         tgame.printBoard();
 
-        humanMoveInput(tgame, player);
+        humanMoveInput(tgame, static_cast<short>(player));
         if(tgame.checkIfWin() == player){
-            cout << "Player " << player << " wins!\n";
+            cout << "Player " << static_cast<int>(player) << " wins!\n";
             return;
         }
         if(tgame.checkIfDraw()){
             cout << "Draw!\n";
             return;
         }
-        player = (player == 1) ? 2 : 1;
+        player = tictactoe::switchPlayer(player);
     }
 }
 
 void humanVsHumanPlusAiReport(tictactoe::Game& tgame){
-    short player = 1;
+    tictactoe::CellState player = tictactoe::CellState::O;
     while(true){
         tgame.printBoard();
 
-        ai::MinimaxReturn result = ai::evaluate(tgame, player, (short)tgame.getEmptyCellsCount(), player == 1);
+        ai::MinimaxReturn result = ai::evaluate(tgame, static_cast<short>(player), (short)tgame.getEmptyCellsCount(), player == tictactoe::CellState::O);
         cout << "AI evaluation: " << result.eval << "\n";
         cout << "mate in: " << ai::matein(tgame, result.eval) << "\n\n";
         cout << "Best move: (" << result.move[0] << ", " << result.move[1] << ")\n";
-        humanMoveInput(tgame, player);
+        humanMoveInput(tgame, static_cast<short>(player));
 
         if(tgame.checkIfWin() == player){
-            cout << "Player " << player << " wins!\n";
+            cout << "Player " << static_cast<int>(player) << " wins!\n";
             return;
         }
         if(tgame.checkIfDraw()){
             cout << "Draw!\n";
             return;
         }
-        player = ai::switchPlayer(player);
+        player = tictactoe::switchPlayer(player);
     }
 }
 
@@ -152,37 +152,37 @@ void ImpossibleAiMove(tictactoe::Game& tgame, short player){
     tgame.makeMove(result.move[0], result.move[1], player);
 }
 
-void PlayAi(tictactoe::Game& tgame, AiDifficulty difficulty, bool HumanIswhitePlayer){
-    short human = (HumanIswhitePlayer ? 1 : 2);
-    short player = 1;
+void PlayAi(tictactoe::Game& tgame, AiDifficulty difficulty, bool HumanWillMoveFirst){
+    tictactoe::CellState human = (HumanWillMoveFirst ? tictactoe::CellState::O : tictactoe::CellState::X);
+    tictactoe::CellState player = tictactoe::CellState::O; // O always goes first
     while(true){
         cout << "-----------------------\n";
         tgame.printBoard();
 
         if(player == human){
-            humanMoveInput(tgame, player);
+            humanMoveInput(tgame, static_cast<short>(player));
         } else {
             switch(difficulty){
                 case AiDifficulty::Easy:
-                    EasyAiMove(tgame, player);
+                    EasyAiMove(tgame, static_cast<short>(player));
                     break;
                 case AiDifficulty::Medium:
-                    MediumAiMove(tgame, player);
+                    MediumAiMove(tgame, static_cast<short>(player));
                     break;
                 case AiDifficulty::Impossible:
-                    ImpossibleAiMove(tgame, player);
+                    ImpossibleAiMove(tgame, static_cast<short>(player));
                     break;
             }
         }
 
         if(tgame.checkIfWin() == player){
-            cout << "Player " << player << " wins!\n";
+            cout << "Player " << static_cast<int>(player) << " wins!\n";
             return;
         }
         if(tgame.checkIfDraw()){
             cout << "Draw!\n";
             return;
         }
-        player = ai::switchPlayer(player);
+        player = tictactoe::switchPlayer(player);
     }
 }

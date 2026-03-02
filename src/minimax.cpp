@@ -14,8 +14,8 @@ MinimaxReturn evaluateMinimaxAlphaBeta(tictactoe::Game& tgame, short player, sho
 }
 
 MinimaxReturn minimax(tictactoe::Game& tgame, short player, short depth, bool maximizingPlayer){
-    short winner = tgame.checkIfWin();
-    if(winner != 0 || tgame.checkIfDraw() || depth == 0){
+    tictactoe::CellState winner = tgame.checkIfWin();
+    if(winner != tictactoe::CellState::Empty || tgame.checkIfDraw() || depth == 0){
         return MinimaxReturn{scoreMove(tgame, depth), {0,0}};
     }
 
@@ -40,8 +40,8 @@ MinimaxReturn minimax(tictactoe::Game& tgame, short player, short depth, bool ma
 }
 
 MinimaxReturn minimaxAlphaBeta(tictactoe::Game& tgame, short player, short depth, bool maximizingPlayer, int alpha, int beta){
-    short winner = tgame.checkIfWin();
-    if(winner != 0 || tgame.checkIfDraw() || depth == 0){
+    tictactoe::CellState winner = tgame.checkIfWin();
+    if(winner != tictactoe::CellState::Empty || tgame.checkIfDraw() || depth == 0){
         return MinimaxReturn{scoreMove(tgame, depth), {0,0}};
     }
     
@@ -78,9 +78,9 @@ MinimaxReturn minimaxAlphaBeta(tictactoe::Game& tgame, short player, short depth
 }
 
 int scoreMove(tictactoe::Game& tgame, short depth){
-    short winner = tgame.checkIfWin();
-    if(winner == 1) return WIN_SCORE+depth; // add depth to prefer faster wins
-    if(winner == 2) return LOSE_SCORE-depth; // subtract depth to prefer slower losses
+    tictactoe::CellState winner = tgame.checkIfWin();
+    if(winner == tictactoe::CellState::O) return WIN_SCORE+depth; // add depth to prefer faster wins
+    if(winner == tictactoe::CellState::X) return LOSE_SCORE-depth; // subtract depth to prefer slower losses
     if(tgame.checkIfDraw()) return DRAW_SCORE;
     return 0;
 }
