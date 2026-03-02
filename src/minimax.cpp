@@ -1,5 +1,6 @@
 #include "tictactoe/minimax.h"
 #include <cmath>
+#include <climits>
 
 namespace ai{
 

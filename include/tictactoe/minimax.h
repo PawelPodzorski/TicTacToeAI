@@ -1,7 +1,7 @@
 #pragma once
 #include "tictactoe/tictactoe.h"
 #include "models/minimaxReturnModel.h"
-#include <cmath>
+#include <climits>
 
 namespace ai{
     constexpr int WIN_SCORE = 1000;
